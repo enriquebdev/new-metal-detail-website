@@ -1,6 +1,20 @@
 ## 🎥 Demonstração
 
-![Demonstração do projeto](screenshots/Funcionalidades.gif)
+![Demonstração do projeto](img/Screenshots/Funcionalidades.gif)
+
+## 📸 Capturas de tela
+
+### Página Inicial
+
+![Página Inicial](img/Screenshots/PagInicial.PNG)
+
+### Carrossel
+
+![Carrossel](img/Screenshots/Carrossel.PNG)
+
+### Formulário
+
+![Formulário](img/Screenshots/Formulário.PNG)
 
 📈 Evolução do projeto
 
