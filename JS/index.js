@@ -2,39 +2,63 @@ const rolagem = document.querySelector(".rolagem");
 const direita = document.querySelector("#direita");
 const esquerda = document.querySelector("#esquerda");
 
-const cards = document.querySelectorAll(".card");
+const cardsOriginais = document.querySelectorAll(".card");
 
-const movimento = 380;
+const total = cardsOriginais.length;
 
-let mover = 760;
+let cards;
+let movimento;
+let mover = 0;
 
-cards.forEach((card, index) => {
+let animando = false;
 
-    if(index >= cards.length - 2){
 
-        const clone = card.cloneNode(true);
+// Cria clones no começo (últimos cards)
+for(let i = total - 2; i < total; i++){
 
-        rolagem.insertBefore(clone, rolagem.firstChild);
+    const clone = cardsOriginais[i].cloneNode(true);
 
-    }
+    rolagem.insertBefore(clone, rolagem.firstChild);
 
-});
+}
 
-cards.forEach((card, index) => {
 
-    if(index < 2){
+// Cria clones no final (primeiros cards)
+for(let i = 0; i < 2; i++){
 
-        const clone = card.cloneNode(true);
+    const clone = cardsOriginais[i].cloneNode(true);
 
-        rolagem.appendChild(clone);
+    rolagem.appendChild(clone);
 
-    }
+}
 
-});
 
-rolagem.style.transform = `translateX(-${mover}px)`;
+cards = document.querySelectorAll(".card");
 
+
+// Atualiza tamanho do movimento
+function atualizarTamanho(){
+
+    movimento = cards[0].offsetWidth;
+
+    mover = movimento * 2;
+
+    rolagem.style.transition = "none";
+
+    rolagem.style.transform = `translateX(-${mover}px)`;
+
+}
+
+
+atualizarTamanho();
+
+
+// Botão direita
 direita.addEventListener("click", () => {
+
+    if(animando) return;
+
+    animando = true;
 
     mover += movimento;
 
@@ -44,7 +68,13 @@ direita.addEventListener("click", () => {
 
 });
 
+
+// Botão esquerda
 esquerda.addEventListener("click", () => {
+
+    if(animando) return;
+
+    animando = true;
 
     mover -= movimento;
 
@@ -54,20 +84,21 @@ esquerda.addEventListener("click", () => {
 
 });
 
+
+// Loop infinito
 rolagem.addEventListener("transitionend", () => {
 
-
-    const total = cards.length;
 
     if(mover >= (total + 2) * movimento){
 
         rolagem.style.transition = "none";
 
-        mover = 760;
+        mover = movimento * 2;
 
         rolagem.style.transform = `translateX(-${mover}px)`;
 
     }
+
 
     if(mover <= 0){
 
@@ -79,5 +110,15 @@ rolagem.addEventListener("transitionend", () => {
 
     }
 
+
+    animando = false;
+
+});
+
+
+// Ajusta quando muda a resolução
+window.addEventListener("resize", () => {
+
+    atualizarTamanho();
 
 });
